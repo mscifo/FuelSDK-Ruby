@@ -218,7 +218,10 @@ module FuelSDK
         end
 =end
 
-        properties << {:'@xsi:type' => 'tns:' + object_type}
+        # support savon 2.3 attribute style
+        properties.each do |p|
+          p['@xsi:type'] = 'tns:' + object_type
+        end
         message = {
           'Objects' => properties
           #:attributes! => { 'Objects' => { 'xsi:type' => ('tns:' + object_type) } }
