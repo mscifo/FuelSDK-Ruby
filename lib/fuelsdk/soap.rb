@@ -218,7 +218,7 @@ module FuelSDK
         end
 =end
 
-        properties['@xsi:type'] = 'tns:' + object_type
+        properties << {'@xsi:type' => 'tns:' + object_type}
         message = {
           'Objects' => properties
           #:attributes! => { 'Objects' => { 'xsi:type' => ('tns:' + object_type) } }
