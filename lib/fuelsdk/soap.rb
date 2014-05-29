@@ -218,9 +218,10 @@ module FuelSDK
         end
 =end
 
+        properties['@xsi:type'] = 'tns:' + object_type
         message = {
-          'Objects' => properties,
-          :attributes! => { 'Objects' => { 'xsi:type' => ('tns:' + object_type) } }
+          'Objects' => properties
+          #:attributes! => { 'Objects' => { 'xsi:type' => ('tns:' + object_type) } }
         }
         soap_request action, message
       end
