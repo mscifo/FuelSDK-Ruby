@@ -109,8 +109,7 @@ module FuelSDK
 			s.client = self
 			lists = ids.collect{|id| {'ID' => id}}
 			s.properties = {"EmailAddress" => email, "Lists" => lists}
-			p s.properties 
-			s.properties['SubscriberKey'] = subscriber_key if subscriber_key
+			s.properties[0]['SubscriberKey'] = subscriber_key if subscriber_key
 
 			# Try to add the subscriber
 			if(rsp = s.post and rsp.results.first[:error_code] == '12014')
@@ -138,9 +137,9 @@ module FuelSDK
 		def SendEmailToList(emailID, listID, sendClassficationCustomerKey)
 			email = ET_Email::SendDefinition.new 
 			email.properties = {"Name"=>SecureRandom.uuid, "CustomerKey"=>SecureRandom.uuid, "Description"=>"Created with RubySDK"} 
-			email.properties["SendClassification"] = {"CustomerKey"=>sendClassficationCustomerKey}
-			email.properties["SendDefinitionList"] = {"List"=> {"ID"=>listID}, "DataSourceTypeID"=>"List"}
-			email.properties["Email"] = {"ID"=>emailID}
+			email.properties[0]["SendClassification"] = {"CustomerKey"=>sendClassficationCustomerKey}
+			email.properties[0]["SendDefinitionList"] = {"List"=> {"ID"=>listID}, "DataSourceTypeID"=>"List"}
+			email.properties[0]["Email"] = {"ID"=>emailID}
 			email.authStub = self
 			result = email.post
 			if result.status then 
@@ -159,9 +158,9 @@ module FuelSDK
 		def SendEmailToDataExtension(emailID, sendableDataExtensionCustomerKey, sendClassficationCustomerKey)
 			email = ET_Email::SendDefinition.new 
 			email.properties = {"Name"=>SecureRandom.uuid, "CustomerKey"=>SecureRandom.uuid, "Description"=>"Created with RubySDK"} 
-			email.properties["SendClassification"] = {"CustomerKey"=> sendClassficationCustomerKey}
-			email.properties["SendDefinitionList"] = {"CustomerKey"=> sendableDataExtensionCustomerKey, "DataSourceTypeID"=>"CustomObject"}
-			email.properties["Email"] = {"ID"=>emailID}
+			email.properties[0]["SendClassification"] = {"CustomerKey"=> sendClassficationCustomerKey}
+			email.properties[0]["SendDefinitionList"] = {"CustomerKey"=> sendableDataExtensionCustomerKey, "DataSourceTypeID"=>"CustomObject"}
+			email.properties[0]["Email"] = {"ID"=>emailID}
 			email.authStub = self
 			result = email.post
 			if result.status then 
@@ -180,15 +179,15 @@ module FuelSDK
 			import = ET_Import.new 
 			import.authStub = self
 			import.properties = {"Name"=> "SDK Generated Import #{DateTime.now.to_s}"}
-			import.properties["CustomerKey"] = SecureRandom.uuid
-			import.properties["Description"] = "SDK Generated Import"
-			import.properties["AllowErrors"] = "true"
-			import.properties["DestinationObject"] = {"ID"=>listId}
-			import.properties["FieldMappingType"] = "InferFromColumnHeadings"
-			import.properties["FileSpec"] = fileName
-			import.properties["FileType"] = "CSV"
-			import.properties["RetrieveFileTransferLocation"] = {"CustomerKey"=>"ExactTarget Enhanced FTP"}
-			import.properties["UpdateType"] = "AddAndUpdate"
+			import.properties[0]["CustomerKey"] = SecureRandom.uuid
+			import.properties[0]["Description"] = "SDK Generated Import"
+			import.properties[0]["AllowErrors"] = "true"
+			import.properties[0]["DestinationObject"] = {"ID"=>listId}
+			import.properties[0]["FieldMappingType"] = "InferFromColumnHeadings"
+			import.properties[0]["FileSpec"] = fileName
+			import.properties[0]["FileType"] = "CSV"
+			import.properties[0]["RetrieveFileTransferLocation"] = {"CustomerKey"=>"ExactTarget Enhanced FTP"}
+			import.properties[0]["UpdateType"] = "AddAndUpdate"
 			result = import.post
 			
 			if result.status then 
@@ -202,14 +201,14 @@ module FuelSDK
 			import = ET_Import.new 
 			import.authStub = self
 			import.properties = {"Name"=> "SDK Generated Import #{DateTime.now.to_s}"}
-			import.properties["CustomerKey"] = SecureRandom.uuid
-			import.properties["Description"] = "SDK Generated Import"
-			import.properties["AllowErrors"] = "true"
-			import.properties["DestinationObject"] = {"ObjectID"=>dataExtensionCustomerKey}
-			import.properties["FieldMappingType"] = "InferFromColumnHeadings"
-			import.properties["FileSpec"] = fileName
-			import.properties["FileType"] = "CSV"
-			import.properties["RetrieveFileTransferLocation"] = {"CustomerKey"=>"ExactTarget Enhanced FTP"}
+			import.properties[0]["CustomerKey"] = SecureRandom.uuid
+			import.properties[0]["Description"] = "SDK Generated Import"
+			import.properties[0]["AllowErrors"] = "true"
+			import.properties[0]["DestinationObject"] = {"ObjectID"=>dataExtensionCustomerKey}
+			import.properties[0]["FieldMappingType"] = "InferFromColumnHeadings"
+			import.properties[0]["FileSpec"] = fileName
+			import.properties[0]["FileType"] = "CSV"
+			import.properties[0]["RetrieveFileTransferLocation"] = {"CustomerKey"=>"ExactTarget Enhanced FTP"}
 			if overwrite then
 				import.properties["UpdateType"] = "Overwrite"
 			else 
